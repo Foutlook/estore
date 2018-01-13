@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 获取连接数据库的配置 ，在dataSource直接获取 -->
+	<properties resource="datasource.properties">
+	</properties>
+	<!-- （全局配置参数）一般也不需要 -->
+	<settings>
+		<setting name="logPrefix" value="LOG4J" />
+	</settings>
+	<typeAliases>
+		<!-- 第二种方式：写上包名，默认别名是类名  不区分大小写-->
+		<package name="com.fan.estore.bean"/>
+		<!-- <typeAlias type="com.fan.estore.bean"/> -->
+	</typeAliases>
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<!-- -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${username}" />
+				<property name="password" value="${password}" />
+			</dataSource>
+		</environment>
+	</environments>
+	<mappers>
+		<mapper resource="com/fan/estore/dao/CustomerMapper.xml"/>
+		<mapper resource="com/fan/estore/dao/BookMapper.xml"/>
+		<mapper resource="com/fan/estore/dao/LineMapper.xml"/>
+		<mapper resource="com/fan/estore/dao/OrderMapper.xml"/>
+	</mappers>
+</configuration>

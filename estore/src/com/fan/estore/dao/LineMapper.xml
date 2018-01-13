@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fan.estore.dao.ILineDao">
+	<insert id="saveLine">
+		<selectKey keyColumn="id" keyProperty="id" resultType="long"
+			order="BEFORE">
+			select estore_id.nextval from dual
+		</selectKey>
+		insert into tbl_line
+		values(#{id},#{num},#{order.id},#{book.id})
+	</insert>
+
+	<resultMap type="Line" id="resultLine">
+		<id property="id" column="lid" />
+		<result property="num" column="num" />
+	</resultMap>
+	<!-- book结果 -->
+	<resultMap type="Book" id="resultBook">
+		<id property="id" column="bid" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+	</resultMap>
+	<!-- 通过用户查询订单order结果，然后查询出订单项 -->
+ 	<resultMap type="Order" id="resultOrder">
+		<id property="id" column="oid" />
+		<result property="cost" column="cost" />
+		<result property="orderDate" column="orderDate" />
+	</resultMap>
+	
+	<resultMap type="Line" id="resultLineWithBook" extends="resultLine">
+		<association property="order" resultMap="resultOrder"></association>
+		<collection property="book" resultMap="resultBook"></collection>
+	</resultMap>
+	
+	
+	<!--
+	<resultMap type="Customer" id="resultCustomer">
+		<id property="id" column="cid" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="zip" column="zip" />
+		<result property="address" column="address" />
+		<result property="telephone" column="telephone" />
+		<result property="email" column="email" />
+	</resultMap>
+
+	<resultMap type="Customer" id="resultCustomerWithOrder">
+		<collection property="order" resultMap=" resultOrder "></collection>
+	</resultMap> -->
+
+	<!-- 通过订单id查询订单项  **这里不能查询出来order信息，因为那样查询就是多对多了，只能通过一对多的查询方式 -->
+	<select id="findLineByOId" parameterType="Long"
+		resultMap="resultLineWithBook">
+		select l.id lid, l.num,b.id bid,b.name,b.price
+		from tbl_book b,tbl_line l
+		where
+		l.order_id=#{id}
+		and
+		b.id=l.book_id
+	</select>
+	
+	<!-- 通过订单id删除line -->
+	<delete id="deleteLineByOId" parameterType="Long">
+		delete from tbl_line
+		where order_id=#{id}
+	</delete>
+
+</mapper>

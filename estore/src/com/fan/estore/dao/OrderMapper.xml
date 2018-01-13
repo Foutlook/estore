@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fan.estore.dao.IOrderDao">
+	<!-- 插入订单 -->
+	<insert id="saveOrder" parameterType="Order">
+		<selectKey keyProperty="id" keyColumn="id" order="BEFORE"
+			resultType="Long">
+			select estore_id.nextval from dual
+		</selectKey>
+		insert into tbl_order
+		values(#{id},#{cost},#{orderDate},#{customer.id})
+	</insert>
+
+	<resultMap type="Order" id="resultOrder">
+		<id property="id" column="oid" />
+		<result property="cost" column="cost" />
+		<result property="orderDate" column="orderDate" />
+	</resultMap>
+	<resultMap type="Customer" id="resultCustomer">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="password" column="password" />
+		<result property="zip" column="zip" />
+		<result property="address" column="address" />
+		<result property="telephone" column="telephone" />
+		<result property="email" column="email" />
+	</resultMap>
+	<resultMap type="Order" id="resultOrderWithCustomer" extends="resultOrder">
+		<association property="customer" column="customer_id"
+			resultMap="resultCustomer">
+		</association>
+	</resultMap>
+	<!-- 查询顾客id的订单 -->
+	<select id="findAllOrderByCusId" parameterType="Long" resultMap="resultOrder">
+		select o.id oid,o.cost,o.orderdate
+		from tbl_order o
+		where o.customer_id = #{id}
+	</select>
+	<!--删除订单 -->
+	<delete id="deleteOrder" parameterType="Long">
+		delete from tbl_order
+		where id=#{id}
+	</delete>
+	<!-- 根据order id查询Order -->
+	<select id="findOrderById" parameterType="Long" resultMap="resultOrder">
+		select * 
+		from tbl_order
+		where id=#{id}
+	</select>
+	
+	<!-- 查询所有 -->
+	<select id="findAllOrder" resultMap="resultOrderWithCustomer">
+		select o.id
+		oid,o.cost,o.orderdate,c.id,c.name,c.password,c.zip,c.address,c.telephone,c.email
+		from tbl_order o left join tbl_customer c on o.id = c.id
+	</select>
+</mapper>
+
+
+
