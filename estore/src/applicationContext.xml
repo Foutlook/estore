@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd ">
+	
+	<!-- 将Dao对象配置给 spring容器 -->
+	<bean name="customerDao" class="com.fan.estore.dao.CustomerDaoImpl"></bean>
+	<bean name="bookDao" class="com.fan.estore.dao.BookDaoImpl"></bean>
+	<bean name="orderDao" class="com.fan.estore.dao.OrderDaoImpl"></bean>
+	<bean name="lineDao" class="com.fan.estore.dao.LineDaoImpl"></bean>
+	
+	<!-- 配置Service -->
+	<bean name="customerService" class="com.fan.estore.service.CustomerServiceImpl">
+		<property name="cusdao" ref="customerDao"></property>
+	</bean>
+	
+	<bean name="bookService" class="com.fan.estore.service.BookServiceImpl">
+		<property name="bookdao" ref="bookDao"></property>
+	</bean>
+	
+	<bean name="orderService" class="com.fan.estore.service.OrderServiceImpl">
+		<property name="orderDao" ref="orderDao"></property>
+		<property name="lineDao" ref="lineDao"></property>
+	</bean>
+	<bean name="lineService" class="com.fan.estore.service.LineServiceImpl">
+		<property name="lineDao" ref="lineDao"></property>
+	</bean>
+	
+	
+</beans>
