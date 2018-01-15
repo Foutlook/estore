@@ -68,4 +68,24 @@ public class Testfindlines {
 			}
 		}
 	}
+	
+	@Test
+	public void fun4() {
+		// 通过order的id删除订单项
+		SqlSession session = MyBatisSqlSessionFactory.getSqlSession();
+		try {
+			ILineDao mapper = session.getMapper(ILineDao.class);
+			List<Order> orderWithBook = mapper.findOrderWithBookByOId(28L);
+			for (Order order : orderWithBook) {
+				System.out.println(order);
+			}
+			session.commit();
+		} catch (Exception e) {
+			session.rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+	}
 }

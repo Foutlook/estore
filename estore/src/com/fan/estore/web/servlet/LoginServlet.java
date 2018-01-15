@@ -3,6 +3,7 @@ package com.fan.estore.web.servlet;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,24 +11,36 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.fan.estore.bean.Book;
 import com.fan.estore.bean.Customer;
 import com.fan.estore.bean.Order;
-import com.fan.estore.service.BookServiceImpl;
-import com.fan.estore.service.CustomerServiceImpl;
 import com.fan.estore.service.IBookService;
 import com.fan.estore.service.ICustomerService;
 import com.fan.estore.service.IOrderService;
-import com.fan.estore.service.OrderServiceImpl;
 
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ICustomerService customerService = new CustomerServiceImpl();
-	IBookService bookService = new BookServiceImpl();
-	IOrderService orderService = new OrderServiceImpl();
+	/*private ICustomerService customerService;
+	private IBookService bookService;
+	private IOrderService orderService;*/
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//获得容器，从监听器中获得，获得spring容器，从application域中获得即可
+		//1获得servletContext对象
+		ServletContext sc = request.getServletContext();
+		//2.从sc中获得ac容器
+		WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+		//3.从容器中获得customerService,bookService,orderService
+		ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
+		IBookService bookService = (IBookService) ac.getBean("bookService");
+		IOrderService orderService = (IOrderService) ac.getBean("orderService");
+		
+		
+		//-----------------------------------------------
 		String username = request.getParameter("userid");
 		String pwd = request.getParameter("password");
 		//判断username和pwd是通过页面来控制判断

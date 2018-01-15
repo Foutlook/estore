@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.fan.estore.bean.Line;
+import com.fan.estore.bean.Order;
 import com.fan.estore.common.MyBatisSqlSessionFactory;
 
 public class LineDaoImpl implements ILineDao {
@@ -58,5 +59,10 @@ public class LineDaoImpl implements ILineDao {
 				session.close();
 			}
 		}
+	}
+
+	@Override
+	public List<Order> findOrderWithBookByOId(Long id) {
+		return null;
 	}
 }

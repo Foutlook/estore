@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>estore</display-name>
+  <!-- 可以让spring容器课可以随项目的创建而创建，销毁而销毁 -->
+  <listener>
+  	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!-- 指定加载spring配置文件applicationContext.xml 的位置 -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
   <filter>
     <filter-name>ecodingFilter</filter-name>
     <filter-class>com.fan.estore.web.filter.EcondingFilter</filter-class>
@@ -17,6 +26,7 @@
     <filter-name>loginFilter</filter-name>
     <url-pattern>*.jsp</url-pattern>
   </filter-mapping>
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

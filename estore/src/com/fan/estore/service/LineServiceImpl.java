@@ -8,7 +8,7 @@ import com.fan.estore.dao.LineDaoImpl;
 import com.fan.estore.myexception.LineException;
 
 public class LineServiceImpl implements ILineService {
-	ILineDao lineDao = new LineDaoImpl();
+	private ILineDao lineDao;
 	@Override
 	public void saveLine(Line line) {
 		lineDao.saveLine(line);
@@ -36,4 +36,9 @@ public class LineServiceImpl implements ILineService {
 			throw new LineException("通过orderid删除数据出错");
 		}
 	}
+
+	public void setLineDao(ILineDao lineDao) {
+		this.lineDao = lineDao;
+	}
+	
 }

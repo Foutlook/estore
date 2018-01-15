@@ -8,7 +8,7 @@ import com.fan.estore.dao.IBookDao;
 import com.fan.estore.myexception.BookException;
 
 public class BookServiceImpl implements IBookService {
-	IBookDao bookdao = new BookDaoImpl();
+	private IBookDao bookdao;
 
 	@Override
 	public List<Book> listAllBooks() throws BookException {
@@ -37,5 +37,8 @@ public class BookServiceImpl implements IBookService {
 		}
 		return book;
 	}
-
+	//set方法，注入时使用
+	public void setBookdao(IBookDao bookdao) {
+		this.bookdao = bookdao;
+	}
 }

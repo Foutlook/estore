@@ -23,48 +23,64 @@
 		<result property="price" column="price" />
 	</resultMap>
 	<!-- 通过用户查询订单order结果，然后查询出订单项 -->
- 	<resultMap type="Order" id="resultOrder">
+	<resultMap type="Order" id="resultOrder">
 		<id property="id" column="oid" />
 		<result property="cost" column="cost" />
 		<result property="orderDate" column="orderDate" />
 	</resultMap>
-	
+
 	<resultMap type="Line" id="resultLineWithBook" extends="resultLine">
 		<association property="order" resultMap="resultOrder"></association>
 		<collection property="book" resultMap="resultBook"></collection>
 	</resultMap>
-	
-	
-	<!--
-	<resultMap type="Customer" id="resultCustomer">
-		<id property="id" column="cid" />
-		<result property="name" column="name" />
-		<result property="password" column="password" />
-		<result property="zip" column="zip" />
-		<result property="address" column="address" />
-		<result property="telephone" column="telephone" />
-		<result property="email" column="email" />
-	</resultMap>
 
-	<resultMap type="Customer" id="resultCustomerWithOrder">
-		<collection property="order" resultMap=" resultOrder "></collection>
-	</resultMap> -->
 
-	<!-- 通过订单id查询订单项  **这里不能查询出来order信息，因为那样查询就是多对多了，只能通过一对多的查询方式 -->
-	<select id="findLineByOId" parameterType="Long"
-		resultMap="resultLineWithBook">
+	<!-- <resultMap type="Customer" id="resultCustomer"> 
+			<id property="id" column="cid"/> 
+			<result property="name" column="name" /> 
+			<result property="password" column="password" /> 
+			<result property="zip" column="zip" /> 
+			<result property="address" column="address" /> 
+			<result property="telephone" column="telephone" /> 
+			<result property="email" column="email" /> 
+			</resultMap> <resultMap type="Customer" id="resultCustomerWithOrder"> 
+			<collection property="order" resultMap=" resultOrder "></collection> 
+		</resultMap> -->
+
+	<!-- 通过订单id查询订单项 **这里不能查询出来order信息，因为那样查询就是多对多了，只能通过一对多的查询方式 -->
+	<select id="findLineByOId" parameterType="Long" resultMap="resultLineWithBook">
 		select l.id lid, l.num,b.id bid,b.name,b.price
-		from tbl_book b,tbl_line l
+		from tbl_book b,tbl_line
+		l
 		where
 		l.order_id=#{id}
 		and
 		b.id=l.book_id
 	</select>
-	
+
 	<!-- 通过订单id删除line -->
 	<delete id="deleteLineByOId" parameterType="Long">
 		delete from tbl_line
 		where order_id=#{id}
 	</delete>
+	
+	
+	<!-- 通过orderId查询book和order 先通过orderID查询到order信息，然后通过order查询line，到book-->
+	<!-- <resultMap type="Order" id="resultOrderWithBook" extends="resultOrder">
+		<collection property="lines" column="order_id" resultMap="resultLineWithBook"/>
+	</resultMap>
+	<resultMap type="Line" id="resultLineWithBook" extends="resultLine">
+		<association property="book" column="book_id" resultMap="resultBook"></association>
+	</resultMap>
+	<select id="findOrderWithBookByOId" parameterType="Long" resultMap="resultOrderWithBook">
+		select o.id,o.cost, l.id lid, l.num,b.id bid,b.name,b.price
+		from tbl_order o,tbl_book b,tbl_line l
+		where
+		o.id=#{id}
+		and
+		o.id=l.order_id
+		and
+		b.id=l.book_id
+	</select> -->
 
 </mapper>

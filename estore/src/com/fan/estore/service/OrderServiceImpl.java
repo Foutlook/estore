@@ -13,8 +13,8 @@ import com.fan.estore.dao.OrderDaoImpl;
 import com.fan.estore.myexception.OrderException;
 
 public class OrderServiceImpl implements IOrderService {
-	IOrderDao orderDao = new OrderDaoImpl();
-	ILineDao lineDao = new LineDaoImpl();
+	private IOrderDao orderDao;
+	private ILineDao lineDao;
 
 	@Override
 	public void confirmOrder(Customer customer, Order order, Collection<Line> lines) throws OrderException {
@@ -83,4 +83,12 @@ public class OrderServiceImpl implements IOrderService {
 		return orders;
 	}
 
+	public void setOrderDao(IOrderDao orderDao) {
+		this.orderDao = orderDao;
+	}
+
+	public void setLineDao(ILineDao lineDao) {
+		this.lineDao = lineDao;
+	}
+	
 }

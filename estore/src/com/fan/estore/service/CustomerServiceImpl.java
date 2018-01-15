@@ -6,7 +6,7 @@ import com.fan.estore.dao.ICustomerDao;
 import com.fan.estore.myexception.CustomerException;
 
 public class CustomerServiceImpl implements ICustomerService {
-	ICustomerDao cusdao = new CustomerDaoImpl();
+	private ICustomerDao cusdao;
 
 	@Override
 	public void register(Customer customer) throws CustomerException {
@@ -44,5 +44,9 @@ public class CustomerServiceImpl implements ICustomerService {
 			throw new CustomerException("更新出错");
 		}
 	}
-
+	
+	//依赖注入时要用，通过set方式注入
+	public void setCusdao(ICustomerDao cusdao) {
+		this.cusdao = cusdao;
+	}
 }
