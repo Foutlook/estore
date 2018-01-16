@@ -3,7 +3,6 @@ package com.fan.estore.service;
 import java.util.List;
 
 import com.fan.estore.bean.Book;
-import com.fan.estore.dao.BookDaoImpl;
 import com.fan.estore.dao.IBookDao;
 import com.fan.estore.myexception.BookException;
 

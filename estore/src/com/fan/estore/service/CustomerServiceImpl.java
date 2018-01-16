@@ -1,7 +1,6 @@
 package com.fan.estore.service;
 
 import com.fan.estore.bean.Customer;
-import com.fan.estore.dao.CustomerDaoImpl;
 import com.fan.estore.dao.ICustomerDao;
 import com.fan.estore.myexception.CustomerException;
 

@@ -37,7 +37,6 @@ public class Testfindlines {
 	public void fun2() {
 		// 通过order的id查询订单项
 		SqlSession session = MyBatisSqlSessionFactory.getSqlSession();
-		List<Line> lines = null;
 		try {
 			IOrderDao mapper = session.getMapper(IOrderDao.class);
 			Order order = mapper.findOrderById(21L);

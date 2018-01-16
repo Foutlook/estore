@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.fan.estore.bean.Line;
 import com.fan.estore.dao.ILineDao;
-import com.fan.estore.dao.LineDaoImpl;
 import com.fan.estore.myexception.LineException;
 
 public class LineServiceImpl implements ILineService {

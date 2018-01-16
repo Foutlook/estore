@@ -8,8 +8,6 @@ import com.fan.estore.bean.Line;
 import com.fan.estore.bean.Order;
 import com.fan.estore.dao.ILineDao;
 import com.fan.estore.dao.IOrderDao;
-import com.fan.estore.dao.LineDaoImpl;
-import com.fan.estore.dao.OrderDaoImpl;
 import com.fan.estore.myexception.OrderException;
 
 public class OrderServiceImpl implements IOrderService {

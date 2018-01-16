@@ -18,7 +18,6 @@ import com.fan.estore.bean.Book;
 import com.fan.estore.bean.Line;
 import com.fan.estore.bean.ShoppingCar;
 import com.fan.estore.service.IBookService;
-import com.fan.estore.service.IOrderService;
 
 @WebServlet("/addOrderlineServlet")
 public class AddOrderlineServlet extends HttpServlet {
@@ -39,7 +38,6 @@ public class AddOrderlineServlet extends HttpServlet {
 		WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(serCon);
 		// 3.从容器中获得bookService，customerService
 		IBookService bookService = (IBookService) ac.getBean("bookService");
-		IOrderService orderService = (IOrderService) ac.getBean("orderService");
 		// -----------------------------------------------
 
 		String bookid = request.getParameter("bookid");
