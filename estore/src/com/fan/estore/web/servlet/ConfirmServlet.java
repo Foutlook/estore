@@ -23,9 +23,7 @@ import com.fan.estore.bean.Line;
 import com.fan.estore.bean.Order;
 import com.fan.estore.bean.ShoppingCar;
 import com.fan.estore.myexception.OrderException;
-import com.fan.estore.service.ILineService;
 import com.fan.estore.service.IOrderService;
-import com.fan.estore.service.OrderServiceImpl;
 
 @WebServlet("/confirmServlet")
 public class ConfirmServlet extends HttpServlet {

@@ -18,8 +18,6 @@ import com.fan.estore.bean.Customer;
 import com.fan.estore.bean.Order;
 import com.fan.estore.service.ILineService;
 import com.fan.estore.service.IOrderService;
-import com.fan.estore.service.LineServiceImpl;
-import com.fan.estore.service.OrderServiceImpl;
 
 @WebServlet("/delOrderServlet")
 public class DelOrderServlet extends HttpServlet {

@@ -17,11 +17,8 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.fan.estore.bean.Book;
 import com.fan.estore.bean.Line;
 import com.fan.estore.bean.ShoppingCar;
-import com.fan.estore.service.BookServiceImpl;
 import com.fan.estore.service.IBookService;
-import com.fan.estore.service.ILineService;
 import com.fan.estore.service.IOrderService;
-import com.fan.estore.service.OrderServiceImpl;
 
 @WebServlet("/addOrderlineServlet")
 public class AddOrderlineServlet extends HttpServlet {
