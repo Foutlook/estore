@@ -1,3 +1,3 @@
 # estore
-The use of servlet  and mybatis.
+The use of servlet，Spring and Mybatis.
 
