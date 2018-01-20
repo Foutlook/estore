@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fan.estore.bean.Line;
 import com.fan.estore.bean.Order;
 import com.fan.estore.common.MyBatisSqlSessionFactory;
 import com.fan.estore.dao.ILineDao;
 import com.fan.estore.dao.IOrderDao;
+import com.fan.estore.mapper.LineMapper;
 
 
 //测试数据库的类
@@ -85,6 +88,17 @@ public class Testfindlines {
 			if (session != null) {
 				session.close();
 			}
+		}
+	}
+	
+	@Test
+	public void fun5() {
+		ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+		List<Line> lines = null;
+		LineMapper mapper = ac.getBean(LineMapper.class);
+		lines = mapper.findLineByOId(34L);
+		for (Line line : lines) {
+			System.out.println(line.getId());
 		}
 	}
 }

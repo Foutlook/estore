@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.fan.estore.dao.IBookDao">
+<mapper namespace="com.fan.estore.mapper.BookMapper">
 
 	<resultMap type="Book" id="resultBook">
 		<id property="id" column="id"/>

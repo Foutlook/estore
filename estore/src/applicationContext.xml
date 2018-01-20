@@ -1,23 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://www.springframework.org/schema/beans"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd ">
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+	<!-- 配置连接数据库的信息文件地址 -->
+	<context:property-placeholder location="classpath:datasource.properties"/>
+	<!-- 数据库连接池 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="maxActive" value="10" />
+		<property name="maxIdle" value="5" />
+	</bean>
+	<!-- 配置SqlSessionFactory:产生sqlsession的工厂 -->
+	<bean name="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 产生工厂需要DataSource -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- mybatis的核心配置文件 直接把路径给引进来-->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+	</bean>
+	
+	<!-- 配置Mapper代理对象MapperFactoryBean，可以自动映射接口的实现方法 -->
+	<!-- <bean name="mapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		引入sqlsession工厂，mapper类的实现需要工厂创建
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+		配置Mapper接口======但是这种方式会写很多的接口 -不好用
+		<property name="mapperInterface" value="com.fan.estore.dao.ICustomerDao"></property>
+		<property name="mapperInterface" value="com.fan.estore.dao.IBookDao"></property>
+		<property name="mapperInterface" value="com.fan.estore.dao.ILineDao"></property>
+		<property name="mapperInterface" value="com.fan.estore.dao.IOrderDao"></property>
+	</bean>  -->
+	
+	<!-- Mapper动态代理开发   扫描 ==使用MapperScannerConfigurer  扫描包方式配置代理-->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 引入sqlsession工厂，mapper类的实现需要工厂创建-->
+		<!-- <property name="sqlSessionFactory" ref="sqlSessionFactory"></property> -->
+		<!-- 基本包 配置Mapper接口 -->
+		<property name="basePackage" value="com.fan.estore.mapper"></property>
+	</bean>
+	
 	
 	<!-- 将Dao对象配置给 spring容器 -->
-	<bean name="customerDao" class="com.fan.estore.dao.CustomerDaoImpl"></bean>
-	<bean name="bookDao" class="com.fan.estore.dao.BookDaoImpl"></bean>
-	<bean name="orderDao" class="com.fan.estore.dao.OrderDaoImpl"></bean>
-	<bean name="lineDao" class="com.fan.estore.dao.LineDaoImpl"></bean>
-	
+	<bean name="customerDao" class="com.fan.estore.daomapper.CustomerDaoImpl"></bean>
+	<bean name="bookDao" class="com.fan.estore.daomapper.BookDaoImpl"></bean>
+	<bean name="orderDao" class="com.fan.estore.daomapper.OrderDaoImpl"></bean>
+	<bean name="lineDao" class="com.fan.estore.daomapper.LineDaoImpl"></bean>
+
 	<!-- 配置Service -->
 	<bean name="customerService" class="com.fan.estore.service.CustomerServiceImpl">
 		<property name="cusdao" ref="customerDao"></property>
 	</bean>
-	
+
 	<bean name="bookService" class="com.fan.estore.service.BookServiceImpl">
 		<property name="bookdao" ref="bookDao"></property>
 	</bean>
-	
+
 	<bean name="orderService" class="com.fan.estore.service.OrderServiceImpl">
 		<property name="orderDao" ref="orderDao"></property>
 		<property name="lineDao" ref="lineDao"></property>
@@ -25,6 +65,6 @@
 	<bean name="lineService" class="com.fan.estore.service.LineServiceImpl">
 		<property name="lineDao" ref="lineDao"></property>
 	</bean>
-	
-	
+
+
 </beans>
