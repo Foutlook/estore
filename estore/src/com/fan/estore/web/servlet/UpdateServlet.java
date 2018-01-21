@@ -54,7 +54,7 @@ public class UpdateServlet extends HttpServlet {
 			//更新
 			customerService.updateCustomer(customer);
 			//重新登录，加入session中
-			Customer nextLogin = customerService.login(username, pwd);
+			Customer nextLogin = customerService.getLogin(username, pwd);
 			HttpSession session = request.getSession();
 			session.setAttribute("customer", nextLogin);
 			response.sendRedirect(request.getContextPath()+"/index.jsp");

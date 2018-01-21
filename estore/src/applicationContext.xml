@@ -21,6 +21,8 @@
 		<property name="dataSource" ref="dataSource"></property>
 		<!-- mybatis的核心配置文件 直接把路径给引进来-->
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		
+		
 	</bean>
 	
 	<!-- 配置Mapper代理对象MapperFactoryBean，可以自动映射接口的实现方法 -->
@@ -42,6 +44,14 @@
 		<property name="basePackage" value="com.fan.estore.mapper"></property>
 	</bean>
 	
+	<!-- 配置事务，进行事务管理 -->
+	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 第一种方式：通过注解的方式注入事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	
+	<!-- 第二种方式，通过配置xml的形式配置事务 -->
 	
 	<!-- 将Dao对象配置给 spring容器 -->
 	<bean name="customerDao" class="com.fan.estore.daomapper.CustomerDaoImpl"></bean>

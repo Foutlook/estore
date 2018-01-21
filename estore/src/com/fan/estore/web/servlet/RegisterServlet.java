@@ -55,12 +55,12 @@ public class RegisterServlet extends HttpServlet {
 		Customer customer = new Customer(username, pwd, zip, address, cellphone, email);
 		System.out.println(username);
 		try {
-			customerService.register(customer);
+			customerService.saveRegister(customer);
 			// 用户保存到session中
 			HttpSession session = request.getSession();
 			session.setAttribute("customer", customer);
 			// 查询书籍信息
-			List<Book> allBooks = bookService.listAllBooks();
+			List<Book> allBooks = bookService.getListAllBooks();
 			session.setAttribute("allBooks", allBooks);
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 		} catch (Exception e) {

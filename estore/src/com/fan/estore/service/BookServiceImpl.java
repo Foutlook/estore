@@ -2,15 +2,21 @@ package com.fan.estore.service;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fan.estore.bean.Book;
 import com.fan.estore.dao.IBookDao;
 import com.fan.estore.myexception.BookException;
 
+@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class BookServiceImpl implements IBookService {
 	private IBookDao bookdao;
-
+	
+	@Transactional(readOnly=true)
 	@Override
-	public List<Book> listAllBooks() throws BookException {
+	public List<Book> getListAllBooks() throws BookException {
 		List<Book> allbooks = null;
 		try {
 			allbooks = bookdao.queryAll();
@@ -23,6 +29,7 @@ public class BookServiceImpl implements IBookService {
 		return allbooks;
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public Book findById(Long id) throws BookException {
 		Book book = null;

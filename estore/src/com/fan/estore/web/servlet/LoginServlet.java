@@ -45,12 +45,12 @@ public class LoginServlet extends HttpServlet {
 		String pwd = request.getParameter("password");
 		//判断username和pwd是通过页面来控制判断
 		try {
-			Customer customer = customerService.login(username, pwd);
+			Customer customer = customerService.getLogin(username, pwd);
 			//用户保存到session中
 			HttpSession session = request.getSession();
 			session.setAttribute("customer", customer);
 			//跳转首页之前对book进行查询
-			List<Book> allBooks = bookService.listAllBooks();
+			List<Book> allBooks = bookService.getListAllBooks();
 			session.setAttribute("allBooks", allBooks);
 			//跳转之前通过customer id对order查询
 			List<Order> allOrders = orderService.findAllOrderByCusId(customer.getId());

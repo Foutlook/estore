@@ -56,7 +56,7 @@ public class ConfirmServlet extends HttpServlet {
 		order.setLines(lines);
 		// 订单保存到数据库
 		try {
-			orderService.confirmOrder(customer, order, lines);
+			orderService.saveConfirmOrder(customer, order, lines);
 			// 查询本顾客ID的订单
 			List<Order> orderByCusId = orderService.findAllOrderByCusId(customer.getId());
 			System.out.println(orderByCusId);

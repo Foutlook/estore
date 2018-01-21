@@ -3,6 +3,10 @@ package com.fan.estore.service;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fan.estore.bean.Customer;
 import com.fan.estore.bean.Line;
 import com.fan.estore.bean.Order;
@@ -10,12 +14,13 @@ import com.fan.estore.dao.ILineDao;
 import com.fan.estore.dao.IOrderDao;
 import com.fan.estore.myexception.OrderException;
 
+@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class OrderServiceImpl implements IOrderService {
 	private IOrderDao orderDao;
 	private ILineDao lineDao;
 
 	@Override
-	public void confirmOrder(Customer customer, Order order, Collection<Line> lines) throws OrderException {
+	public void saveConfirmOrder(Customer customer, Order order, Collection<Line> lines) throws OrderException {
 		order.setCustomer(customer);
 		try {
 			// 对保存订单
@@ -44,6 +49,7 @@ public class OrderServiceImpl implements IOrderService {
 		}
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public Order findById(Long id) throws OrderException {
 		Order order = null;
@@ -55,6 +61,7 @@ public class OrderServiceImpl implements IOrderService {
 		return order;
 	}
 
+	@Transactional(readOnly=true)
 	@Override
 	public List<Order> findAllOrder() throws OrderException {
 		List<Order> allOrder = null;
@@ -68,6 +75,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	// 通过customer的id查询
+	@Transactional(readOnly=true)
 	@Override
 	public List<Order> findAllOrderByCusId(Long id) throws OrderException {
 		List<Order> orders = null;

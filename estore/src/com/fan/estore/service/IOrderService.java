@@ -10,7 +10,7 @@ import com.fan.estore.myexception.OrderException;
 
 
 public interface IOrderService {
-	void confirmOrder(Customer customer,Order order,Collection<Line> lines) throws OrderException;
+	void saveConfirmOrder(Customer customer,Order order,Collection<Line> lines) throws OrderException;
 	void deleteOrder(Long id) throws OrderException;
 	Order findById(Long id) throws OrderException;
 	List<Order> findAllOrder() throws OrderException;

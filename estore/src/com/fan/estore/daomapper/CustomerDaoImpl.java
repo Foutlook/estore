@@ -20,6 +20,8 @@ public class CustomerDaoImpl implements ICustomerDao {
 	@Override
 	public void saveCustomer(Customer customer) {
 		mapper.saveCustomer(customer);
+		/*System.out.println("注册用户...抛出异常");
+		int i = 1/0;*/
 	}
 
 	@Override

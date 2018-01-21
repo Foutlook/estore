@@ -8,6 +8,6 @@ import com.fan.estore.myexception.BookException;
 
 public interface IBookService {
 	
-	List<Book> listAllBooks() throws BookException ;
+	List<Book> getListAllBooks() throws BookException ;
 	Book findById(Long id) throws BookException;
 }

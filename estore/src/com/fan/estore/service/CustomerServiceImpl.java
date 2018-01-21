@@ -1,14 +1,20 @@
 package com.fan.estore.service;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.fan.estore.bean.Customer;
 import com.fan.estore.dao.ICustomerDao;
+import com.fan.estore.daomapper.CustomerDaoImpl;
 import com.fan.estore.myexception.CustomerException;
 
+@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class CustomerServiceImpl implements ICustomerService {
 	private ICustomerDao cusdao;
-
+	
 	@Override
-	public void register(Customer customer) throws CustomerException {
+	public void saveRegister(Customer customer) throws CustomerException {
 		// 注册
 		try {
 			//判断是否已经注册
@@ -22,8 +28,9 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 	}
 
+	@Transactional(readOnly=true)
 	@Override
-	public Customer login(String name, String password) throws CustomerException {
+	public Customer getLogin(String name, String password) throws CustomerException {
 		Customer findcustomer = cusdao.findByName(name);
 		if(findcustomer==null){
 			throw new CustomerException("用户不存在!");
