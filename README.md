@@ -35,13 +35,13 @@ IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的
 ```
 
 **AOP管理事务：示例代码：**
-``` transaction注入
-  <!-- 配置事务，进行事务管理 -->
-  <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+```transaction注入
+    <!-- 配置事务，进行事务管理 -->
+    <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	<property name="dataSource" ref="dataSource"></property>
-  </bean>
-  <!-- 第一种方式：通过注解的方式注入事务 -->
-  <tx:annotation-driven transaction-manager="transactionManager"/>
+    </bean>
+    <!-- 第一种方式：通过注解的方式注入事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 ```
 ---
 ## 问题：
