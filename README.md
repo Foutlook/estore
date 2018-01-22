@@ -22,26 +22,26 @@ IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的
  ```
 **在Servlet层，动态的从spring中取出要使用的对象：
 实例代码：**
-``` 
-        //获得容器，从监听器中获得，获得spring容器，从application域中获得即可
-        //1获得servletContext对象
-	ServletContext sc = request.getServletContext();
-	//2.从sc中获得ac容器
-	WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
-	//3.从容器中获得customerService,bookService,orderService
-	ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
-	IBookService bookService = (IBookService) ac.getBean("bookService");
-	IOrderService orderService = (IOrderService) ac.getBean("orderService");
+``` 得到spring中servlet中的对象
+    //获得容器，从监听器中获得，获得spring容器，从application域中获得即可
+    //1获得servletContext对象
+    ServletContext sc = request.getServletContext();
+    //2.从sc中获得ac容器
+    WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+    //3.从容器中获得customerService,bookService,orderService
+    ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
+    IBookService bookService = (IBookService) ac.getBean("bookService");
+    IOrderService orderService = (IOrderService) ac.getBean("orderService");
 ```
 
 **AOP管理事务：示例代码：**
-```
-  <!-- 配置事务，进行事务管理 -->
-	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"></property>
-	</bean>
-	<!-- 第一种方式：通过注解的方式注入事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+``` transaction注入
+  <!-- 配置事务，进行事务管理 -->
+  <bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource"></property>
+  </bean>
+  <!-- 第一种方式：通过注解的方式注入事务 -->
+  <tx:annotation-driven transaction-manager="transactionManager"/>
 ```
 ---
 ## 问题：
