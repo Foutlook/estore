@@ -24,6 +24,8 @@ import com.fan.estore.service.IOrderService;
 @WebServlet("/loginServlet")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	//在Spring的自动注入中普通的POJO类都可以使用@Autowired进行自动注入，但是除了两类：Filter和Servlet无法使用自动注入属性。
+	//（因为这两个归tomcat容器管理）可以用init(集承自HttpServlet后重写init方法)方法中实例化对象，
 	/*private ICustomerService customerService;
 	private IBookService bookService;
 	private IOrderService orderService;*/
@@ -38,6 +40,7 @@ public class LoginServlet extends HttpServlet {
 		ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
 		IBookService bookService = (IBookService) ac.getBean("bookService");
 		IOrderService orderService = (IOrderService) ac.getBean("orderService");
+		
 		
 		
 		//-----------------------------------------------

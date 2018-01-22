@@ -2,6 +2,9 @@ package com.fan.estore.service;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,8 +13,11 @@ import com.fan.estore.bean.Book;
 import com.fan.estore.dao.IBookDao;
 import com.fan.estore.myexception.BookException;
 
+@Service("bookService")
 @Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class BookServiceImpl implements IBookService {
+	//使用注解的方式来注入需要注入的对象，name是dao层beanName
+	@Resource(name="bookDao")
 	private IBookDao bookdao;
 	
 	@Transactional(readOnly=true)
@@ -43,8 +49,8 @@ public class BookServiceImpl implements IBookService {
 		}
 		return book;
 	}
-	//set方法，注入时使用
-	public void setBookdao(IBookDao bookdao) {
+	//set方法，注入时使用，在属性上使用注解，就可以不再使用set方法
+	/*public void setBookdao(IBookDao bookdao) {
 		this.bookdao = bookdao;
-	}
+	}*/
 }

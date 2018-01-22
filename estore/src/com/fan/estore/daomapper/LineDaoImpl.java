@@ -2,15 +2,18 @@ package com.fan.estore.daomapper;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.fan.estore.bean.Line;
 import com.fan.estore.bean.Order;
 import com.fan.estore.dao.ILineDao;
 import com.fan.estore.mapper.LineMapper;
 
+@Repository("lineDao")
 public class LineDaoImpl implements ILineDao {
 
 	@Autowired
-	LineMapper mapper;
+	private LineMapper mapper;
 
 	@Override
 	public void saveLine(Line line) {

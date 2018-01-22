@@ -2,6 +2,7 @@ package com.fan.estore.web.servlet;
 
 import java.io.IOException;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +21,9 @@ import com.fan.estore.service.ICustomerService;
 @WebServlet("/updateServlet")
 public class UpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-//	ICustomerService customerService = new CustomerServiceImpl();
+//	private ICustomerService customerService;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		// 获得容器，从监听器中获得，获得spring容器，从application域中获得即可
 		// 1获得servletContext对象
 		ServletContext sc = request.getServletContext();
@@ -31,8 +31,8 @@ public class UpdateServlet extends HttpServlet {
 		WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
 		// 3.从容器中获得bookService，customerService
 		ICustomerService customerService =  (ICustomerService) ac.getBean("customerService");
-		//-----------------------------------------------
 		
+		//-----------------------------------------------
 		String username = request.getParameter("userid");
 		String pwd = request.getParameter("password");
 		String country = request.getParameter("country");

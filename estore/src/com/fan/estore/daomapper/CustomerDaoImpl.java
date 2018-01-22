@@ -1,14 +1,17 @@
 package com.fan.estore.daomapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.fan.estore.bean.Customer;
 import com.fan.estore.dao.ICustomerDao;
 import com.fan.estore.mapper.CustomerMapper;
 
+@Repository("customerDao")
 public class CustomerDaoImpl implements ICustomerDao {
 
 	@Autowired
-	CustomerMapper mapper;
+	private CustomerMapper mapper;
 
 	@Override
 	public Customer findByName(String name) {

@@ -3,6 +3,7 @@ package com.fan.estore.web.servlet;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,8 +23,8 @@ import com.fan.estore.service.ICustomerService;
 @WebServlet("/registerServlet")
 public class RegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	/* private IBookService bookService = new BookServiceImpl();
-	ICustomerService customerService = new CustomerServiceImpl(); */
+	/*private IBookService bookService;
+	private ICustomerService customerService;*/
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -36,6 +37,7 @@ public class RegisterServlet extends HttpServlet {
 		// 3.从容器中获得bookService，customerService
 		IBookService bookService =  (IBookService) ac.getBean("bookService");
 		ICustomerService customerService =  (ICustomerService) ac.getBean("customerService");
+		
 		//-----------------------------------------------
 		String username = request.getParameter("userid");
 		String pwd = request.getParameter("password");

@@ -3,6 +3,7 @@ package com.fan.estore.web.servlet;
 import java.io.IOException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,13 +23,12 @@ import com.fan.estore.service.IOrderService;
 @WebServlet("/delOrderServlet")
 public class DelOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	/*
-	 * IOrderService orderService = new OrderServiceImpl(); ILineService
-	 * lineService = new LineServiceImpl();
-	 */
+	/*private IOrderService orderService; 
+	private ILineService lineService;*/
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		// 获得容器，从监听器中获得，获得spring容器，从application域中获得即可
 		// 1获得servletContext对象
 		ServletContext sc = request.getServletContext();

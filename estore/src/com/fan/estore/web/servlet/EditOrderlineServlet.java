@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,11 +25,12 @@ import com.fan.estore.service.IBookService;
 @WebServlet("/editOrderlineServlet")
 public class EditOrderlineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	// IBookService bookService = new BookServiceImpl();
+//	private IBookService bookService;
 
 	// 更新购物清单商品的数量
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		// 获得容器，从监听器中获得，获得spring容器，从application域中获得即可
 		// 1获得servletContext对象
 		ServletContext serCon = request.getServletContext();
@@ -36,8 +38,8 @@ public class EditOrderlineServlet extends HttpServlet {
 		WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(serCon);
 		// 3.从容器中获得bookService，customerService
 		IBookService bookService = (IBookService) ac.getBean("bookService");
+		
 		// -----------------------------------------------
-
 		HttpSession session = request.getSession();
 		ShoppingCar sc = (ShoppingCar) session.getAttribute("shoppingCar");
 		System.out.println(sc + "=-==================");

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +29,7 @@ import com.fan.estore.service.IOrderService;
 @WebServlet("/confirmServlet")
 public class ConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	// IOrderService orderService = new OrderServiceImpl();
+//	private IOrderService orderService;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

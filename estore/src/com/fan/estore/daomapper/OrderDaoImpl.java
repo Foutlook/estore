@@ -2,14 +2,17 @@ package com.fan.estore.daomapper;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.fan.estore.bean.Order;
 import com.fan.estore.dao.IOrderDao;
 import com.fan.estore.mapper.OrderMapper;
 
+@Repository("orderDao") //标识
 public class OrderDaoImpl implements IOrderDao {
 
 	@Autowired
-	OrderMapper mapper;
+	private OrderMapper mapper;
 
 	@Override
 	public void saveOrder(Order order) {

@@ -3,6 +3,7 @@ package com.fan.estore.web.servlet;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,10 +23,7 @@ import com.fan.estore.service.IBookService;
 @WebServlet("/addOrderlineServlet")
 public class AddOrderlineServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	/*
-	 * IBookService bookService = new BookServiceImpl(); IOrderService
-	 * orderService = new OrderServiceImpl();
-	 */
+//	private IBookService bookService; 
 	ShoppingCar sc = new ShoppingCar();
 
 	// 把商品添加到购物清单中

@@ -3,6 +3,9 @@ package com.fan.estore.service;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,10 @@ import com.fan.estore.dao.ILineDao;
 import com.fan.estore.dao.IOrderDao;
 import com.fan.estore.myexception.OrderException;
 
+@Service("orderService")
 @Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class OrderServiceImpl implements IOrderService {
+	//使用set注解注入
 	private IOrderDao orderDao;
 	private ILineDao lineDao;
 
@@ -88,11 +93,13 @@ public class OrderServiceImpl implements IOrderService {
 
 		return orders;
 	}
-
+	
+	@Resource(name="orderDao")
 	public void setOrderDao(IOrderDao orderDao) {
 		this.orderDao = orderDao;
 	}
-
+	
+	@Resource(name="lineDao")
 	public void setLineDao(ILineDao lineDao) {
 		this.lineDao = lineDao;
 	}

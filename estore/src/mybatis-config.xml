@@ -11,10 +11,11 @@
 		<package name="com.fan.estore.bean"/>
 		<!-- <typeAlias type="com.fan.estore.bean"/> -->
 	</typeAliases>
-	<mappers>
+	<!-- 已经在spring中通过包的方式扫描出来了 -->
+	<!-- <mappers>
 		<mapper resource="com/fan/estore/mapper/CustomerMapper.xml"/>
 		<mapper resource="com/fan/estore/mapper/BookMapper.xml"/>
 		<mapper resource="com/fan/estore/mapper/LineMapper.xml"/>
 		<mapper resource="com/fan/estore/mapper/OrderMapper.xml"/>
-	</mappers>
+	</mappers> -->
 </configuration>

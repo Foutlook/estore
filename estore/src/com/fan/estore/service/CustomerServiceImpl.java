@@ -1,5 +1,8 @@
 package com.fan.estore.service;
 
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,8 +12,10 @@ import com.fan.estore.dao.ICustomerDao;
 import com.fan.estore.daomapper.CustomerDaoImpl;
 import com.fan.estore.myexception.CustomerException;
 
+@Service("customerService")
 @Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class CustomerServiceImpl implements ICustomerService {
+	@Resource(name="customerDao")
 	private ICustomerDao cusdao;
 	
 	@Override
@@ -51,8 +56,8 @@ public class CustomerServiceImpl implements ICustomerService {
 		}
 	}
 	
-	//依赖注入时要用，通过set方式注入
-	public void setCusdao(ICustomerDao cusdao) {
+	//依赖注入时要用，通过set方式注入,在属性上使用注解，就可以不再使用set方法
+	/*public void setCusdao(ICustomerDao cusdao) {
 		this.cusdao = cusdao;
-	}
+	}*/
 }

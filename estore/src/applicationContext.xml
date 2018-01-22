@@ -53,28 +53,30 @@
 	
 	<!-- 第二种方式，通过配置xml的形式配置事务 -->
 	
-	<!-- 将Dao对象配置给 spring容器 -->
-	<bean name="customerDao" class="com.fan.estore.daomapper.CustomerDaoImpl"></bean>
+	
+	<!-- 使用扫描的方式来把bean对象加入到spring容器中 -->
+	<context:component-scan base-package="com.fan.estore.daomapper"></context:component-scan>
+	<context:component-scan base-package="com.fan.estore.service"></context:component-scan>
+	
+	<!-- 将Dao对象配置给 spring容器(使用扫描包的方式后这里就不在使用) -->
+	<!-- <bean name="customerDao" class="com.fan.estore.daomapper.CustomerDaoImpl"></bean>
 	<bean name="bookDao" class="com.fan.estore.daomapper.BookDaoImpl"></bean>
 	<bean name="orderDao" class="com.fan.estore.daomapper.OrderDaoImpl"></bean>
-	<bean name="lineDao" class="com.fan.estore.daomapper.LineDaoImpl"></bean>
+	<bean name="lineDao" class="com.fan.estore.daomapper.LineDaoImpl"></bean> -->
 
 	<!-- 配置Service -->
-	<bean name="customerService" class="com.fan.estore.service.CustomerServiceImpl">
+	<!-- <bean name="customerService" class="com.fan.estore.service.CustomerServiceImpl">
 		<property name="cusdao" ref="customerDao"></property>
 	</bean>
-
 	<bean name="bookService" class="com.fan.estore.service.BookServiceImpl">
 		<property name="bookdao" ref="bookDao"></property>
 	</bean>
-
 	<bean name="orderService" class="com.fan.estore.service.OrderServiceImpl">
 		<property name="orderDao" ref="orderDao"></property>
 		<property name="lineDao" ref="lineDao"></property>
 	</bean>
 	<bean name="lineService" class="com.fan.estore.service.LineServiceImpl">
 		<property name="lineDao" ref="lineDao"></property>
-	</bean>
-
-
+	</bean> -->
+	
 </beans>
