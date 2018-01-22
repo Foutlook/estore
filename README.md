@@ -1,16 +1,15 @@
 # estore
 The use of Servlet，Spring and Mybatis.
-本项目使用Servlet，Spring 和 Mybatis 写成的，是一个小型的购物系统。
+**本项目使用`Servlet`，`Spring` 和 `Mybatis` 写成的，是一个小型的购物系统。**
+---
+一开始的学习中，本项目并没有使用`spring`，这两天通过对`spring`的学习，为了练习`spring`的使用，对`spring`进行添加整合，
+`spring`真是个强大的框架，令我对框架产生了浓厚的兴趣。
 
-一开始的学习中，本项目并没有使用spring，这两天通过对spring的学习，为了练习spring的使用，对spring进行添加整合，
-spring真是个强大的框架，令我对框架产生了浓厚的兴趣。
-
-通过使用spring的IOC(控制反转)，DI(依赖注入)，Aop(切面编程)三大功能，对对象和事务进行管理。
+通过使用spring的`IOC`(控制反转)，`DI`(依赖注入)，`Aop`(切面编程)三大功能，对`对象`和`事务`进行管理。  
 IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的对象都交给spring管理，在系统加载的时候，初始化spring容器。
 
-示例代码：
-在web.xml 下配置监听spring容器的路径：
-
+**示例代码：在web.xml 下配置监听spring容器的路径：**
+``` web.xml
     <!-- 可以让spring容器课可以随项目的创建而创建，销毁而销毁 -->
     <listener>
       <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -20,35 +19,37 @@ IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
-  
-在Servlet层，动态的从spring中取出要使用的对象：
-实例代码：
+ ```
+**在Servlet层，动态的从spring中取出要使用的对象：
+实例代码：**
+``` 
+        //获得容器，从监听器中获得，获得spring容器，从application域中获得即可
+        //1获得servletContext对象
+	ServletContext sc = request.getServletContext();
+	//2.从sc中获得ac容器
+	WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+	//3.从容器中获得customerService,bookService,orderService
+	ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
+	IBookService bookService = (IBookService) ac.getBean("bookService");
+	IOrderService orderService = (IOrderService) ac.getBean("orderService");
+```
 
-    //获得容器，从监听器中获得，获得spring容器，从application域中获得即可
-		//1获得servletContext对象
-		ServletContext sc = request.getServletContext();
-		//2.从sc中获得ac容器
-		WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
-		//3.从容器中获得customerService,bookService,orderService
-		ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
-		IBookService bookService = (IBookService) ac.getBean("bookService");
-		IOrderService orderService = (IOrderService) ac.getBean("orderService");
-
-AOP管理事务：
-示例代码：
+**AOP管理事务：示例代码：**
+```
   <!-- 配置事务，进行事务管理 -->
 	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 第一种方式：通过注解的方式注入事务 -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-  
-问题：
-我在测试我添加的事务时，在抛出异常的情况下，并没有回滚事务，具体原因我没有找到。等过一段时间把spring和mybatis完整的整合学完看是否能发现其中的原因
+```
+---
+## 问题：
+***我在测试我添加的事务时，在抛出异常的情况下，并没有回滚事务，具体原因我没有找到。等过一段时间把`spring`和`mybatis`完整的整合学完看是否能发现其中的原因....***
 
-下面是我完整的spring.xml 代码：
-
-    <?xml version="1.0" encoding="UTF-8"?>
+**下面是我完整的spring.xml 代码：**
+```applicationContext.xml
+    <?xml version="1.0" encoding="UTF-8"?>
     <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
@@ -126,5 +127,5 @@ AOP管理事务：
 		<property name="lineDao" ref="lineDao"></property>
 	</bean>
     </beans>
-
+  ```
 
