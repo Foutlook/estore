@@ -45,7 +45,9 @@ IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的
 ```
 ---
 ## 问题：
-***未解决:->:poop:我在测试我添加的事务时，在抛出异常的情况下，并没有回滚事务，具体原因我没有找到。等过一段时间把`spring`和`mybatis`完整的整合学完看是否能发现其中的原因....***
+***已解决:->:poop: 错误:一开始我在测试我添加的事务时，在抛出异常的情况下，并没有回滚事务.***     
+**原因：`mybatis`在管理事务的时，是通过`jdbc`的`DataSourceTransactionManager`来管理的，这样在进行数据库DML操作时，事务的回滚规则定义了哪些异常会导致事务回滚而哪些不会。默认情况下,事务在遇到`运行时异常`的时候才会回滚,而遇到`检查时异常`时不会回滚。而我在项目中自定义了异常的处理，所以发生异常的时候无法进行回滚。**			 
+**修改的方式：在配置事务通知时，指定方法使用什么属性的时候加上`rollback-for="Throwable`,这样事务管理器在检查到有异常抛出的时候就会回滚事务。**
 
 **已解决:->因为此项目没有使用web层的框架，而是使用的servlet，在通过spring管理对象的过程中，一开始得到spring容器中的对象的方式是：**  
 ```ruxia
@@ -114,9 +116,28 @@ XxxService xxxService = (XxxService) ac.getBean("xxxService");
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 第一种方式：通过注解的方式注入事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
 	<!-- 第二种方式，通过配置xml的形式配置事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 以方法为单位，指定方法使用什么属性 -->
+			<tx:method name="save*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="persist*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="update*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="modify*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="delete*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="remove*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="get*" isolation="DEFAULT" propagation="REQUIRED" read-only="true" rollback-for="Throwable"/>
+			<tx:method name="find*" isolation="DEFAULT" propagation="REQUIRED" read-only="true" rollback-for="Throwable"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置代理对象，使用工厂类 -->
+	<aop:config>
+		<!-- 配置切点 -->
+		<aop:pointcut expression="execution(* com.fan.estore.service.*ServiceImpl.*(..))" id="pc"/>
+		<!-- 配置切面 = 切点+通知  -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pc"/>
+	</aop:config>
 	
 	<!-- 使用扫描的方式来把bean对象加入到spring容器中 -->
 	<context:component-scan base-package="com.fan.estore.daomapper"></context:component-scan>
