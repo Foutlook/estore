@@ -45,7 +45,21 @@ IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的
 ```
 ---
 ## 问题：
-***我在测试我添加的事务时，在抛出异常的情况下，并没有回滚事务，具体原因我没有找到。等过一段时间把`spring`和`mybatis`完整的整合学完看是否能发现其中的原因....***
+***未解决:->:poop:我在测试我添加的事务时，在抛出异常的情况下，并没有回滚事务，具体原因我没有找到。等过一段时间把`spring`和`mybatis`完整的整合学完看是否能发现其中的原因....***
+
+**已解决:->因为此项目没有使用web层的框架，而是使用的servlet，在通过spring管理对象的过程中，一开始得到spring容器中的对象的方式是：**  
+```ruxia
+//获得容器，从监听器中获得，获得spring容器，从application域中获得即可
+//1获得servletContext对象
+ServletContext sc = request.getServletContext();
+//2.从sc中获得ac容器
+WebApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(sc);
+//3.从容器中获得customerService,bookService,orderService
+ICustomerService customerService = (ICustomerService) ac.getBean("customerService");
+XxxService xxxService = (XxxService) ac.getBean("xxxService");
+```
+**当我在spring中使用注解的方式来管理注入对象，想当然的认为Servlet也可以使用注解来注入service层对象，所以我在servlet中使用注解注入service对象，最后出现`javax.naming.NamingException: Cannot create resource instance`异常。**    
+**原因：在Spring的自动注入中普通的POJO类都可以使用@Autowired进行自动注入，但是除了两类：Filter和Servlet无法使用自动注入属性。（因为这两个归tomcat容器管理）可以用init(集承自HttpServlet后重写init方法)方法中实例化对象**
 
 **下面是我完整的spring.xml 代码：**
 ```applicationContext.xml
@@ -104,28 +118,30 @@ IOC和DI：对servlet使用的Service层的对象和Service层使用的Dao层的
 	
 	<!-- 第二种方式，通过配置xml的形式配置事务 -->
 	
-	<!-- 将Dao对象配置给 spring容器 -->
-	<bean name="customerDao" class="com.fan.estore.daomapper.CustomerDaoImpl"></bean>
+	<!-- 使用扫描的方式来把bean对象加入到spring容器中 -->
+	<context:component-scan base-package="com.fan.estore.daomapper"></context:component-scan>
+	<context:component-scan base-package="com.fan.estore.service"></context:component-scan>
+	
+	<!-- 将Dao对象配置给 spring容器(使用扫描包的方式后这里就不在使用) -->
+	<!-- <bean name="customerDao" class="com.fan.estore.daomapper.CustomerDaoImpl"></bean>
 	<bean name="bookDao" class="com.fan.estore.daomapper.BookDaoImpl"></bean>
 	<bean name="orderDao" class="com.fan.estore.daomapper.OrderDaoImpl"></bean>
-	<bean name="lineDao" class="com.fan.estore.daomapper.LineDaoImpl"></bean>
+	<bean name="lineDao" class="com.fan.estore.daomapper.LineDaoImpl"></bean> -->
 
 	<!-- 配置Service -->
-	<bean name="customerService" class="com.fan.estore.service.CustomerServiceImpl">
+	<!-- <bean name="customerService" class="com.fan.estore.service.CustomerServiceImpl">
 		<property name="cusdao" ref="customerDao"></property>
 	</bean>
-
 	<bean name="bookService" class="com.fan.estore.service.BookServiceImpl">
 		<property name="bookdao" ref="bookDao"></property>
 	</bean>
-
 	<bean name="orderService" class="com.fan.estore.service.OrderServiceImpl">
 		<property name="orderDao" ref="orderDao"></property>
 		<property name="lineDao" ref="lineDao"></property>
 	</bean>
 	<bean name="lineService" class="com.fan.estore.service.LineServiceImpl">
 		<property name="lineDao" ref="lineDao"></property>
-	</bean>
+	</bean> -->
     </beans>
   ```
 
