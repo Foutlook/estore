@@ -18,7 +18,7 @@ import com.fan.estore.dao.IOrderDao;
 import com.fan.estore.myexception.OrderException;
 
 @Service("orderService")
-@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
+//@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class OrderServiceImpl implements IOrderService {
 	//使用set注解注入
 	private IOrderDao orderDao;
@@ -54,7 +54,7 @@ public class OrderServiceImpl implements IOrderService {
 		}
 	}
 
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public Order findById(Long id) throws OrderException {
 		Order order = null;
@@ -66,7 +66,7 @@ public class OrderServiceImpl implements IOrderService {
 		return order;
 	}
 
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public List<Order> findAllOrder() throws OrderException {
 		List<Order> allOrder = null;
@@ -80,7 +80,7 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	// 通过customer的id查询
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public List<Order> findAllOrderByCusId(Long id) throws OrderException {
 		List<Order> orders = null;

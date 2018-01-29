@@ -49,9 +49,29 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 第一种方式：通过注解的方式注入事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- <tx:annotation-driven transaction-manager="transactionManager"/> -->
 	
 	<!-- 第二种方式，通过配置xml的形式配置事务 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 以方法为单位，指定方法使用什么属性 -->
+			<tx:method name="save*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="persist*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="update*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="modify*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="delete*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="remove*" isolation="DEFAULT" propagation="REQUIRED" read-only="false" rollback-for="Throwable"/>
+			<tx:method name="get*" isolation="DEFAULT" propagation="REQUIRED" read-only="true" rollback-for="Throwable"/>
+			<tx:method name="find*" isolation="DEFAULT" propagation="REQUIRED" read-only="true" rollback-for="Throwable"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置代理对象，使用工厂类 -->
+	<aop:config>
+		<!-- 配置切点 -->
+		<aop:pointcut expression="execution(* com.fan.estore.service.*ServiceImpl.*(..))" id="pc"/>
+		<!-- 配置切面 = 切点+通知  -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pc"/>
+	</aop:config>
 	
 	
 	<!-- 使用扫描的方式来把bean对象加入到spring容器中 -->

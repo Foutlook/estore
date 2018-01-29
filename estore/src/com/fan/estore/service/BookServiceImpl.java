@@ -14,13 +14,13 @@ import com.fan.estore.dao.IBookDao;
 import com.fan.estore.myexception.BookException;
 
 @Service("bookService")
-@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
+//@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class BookServiceImpl implements IBookService {
 	//使用注解的方式来注入需要注入的对象，name是dao层beanName
 	@Resource(name="bookDao")
 	private IBookDao bookdao;
 	
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public List<Book> getListAllBooks() throws BookException {
 		List<Book> allbooks = null;
@@ -35,7 +35,7 @@ public class BookServiceImpl implements IBookService {
 		return allbooks;
 	}
 
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public Book findById(Long id) throws BookException {
 		Book book = null;

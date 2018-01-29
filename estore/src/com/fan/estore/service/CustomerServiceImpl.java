@@ -13,7 +13,7 @@ import com.fan.estore.daomapper.CustomerDaoImpl;
 import com.fan.estore.myexception.CustomerException;
 
 @Service("customerService")
-@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
+//@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class CustomerServiceImpl implements ICustomerService {
 	@Resource(name="customerDao")
 	private ICustomerDao cusdao;
@@ -28,12 +28,13 @@ public class CustomerServiceImpl implements ICustomerService {
 				throw new CustomerException("用户名已经注册!");
 			}
 			cusdao.saveCustomer(customer);
+			//int i = 1/0;
 		} catch (Exception e) {
 			throw new CustomerException("注册失败");
 		}
 	}
 
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public Customer getLogin(String name, String password) throws CustomerException {
 		Customer findcustomer = cusdao.findByName(name);

@@ -14,7 +14,7 @@ import com.fan.estore.dao.ILineDao;
 import com.fan.estore.myexception.LineException;
 
 @Service("lineService")
-@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
+//@Transactional(isolation=Isolation.DEFAULT,propagation=Propagation.REQUIRED,readOnly=false)
 public class LineServiceImpl implements ILineService {
 	private ILineDao lineDao;
 	
@@ -24,7 +24,7 @@ public class LineServiceImpl implements ILineService {
 	}
 	
 	//通过orderid查询订单项
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	@Override
 	public List<Line> findLineByOrderId(Long id) throws LineException {
 		List<Line> lines;
